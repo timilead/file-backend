@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Uploaded Files</title>
+</head>
+<body>
+
+<h2>Uploaded Files</h2>
+<div id="files"></div>
+
+<script>
+fetch("http://localhost:3000/files-list")
+  .then(res => res.json())
+  .then(files => {
+    const container = document.getElementById("files");
+
+    if (files.length === 0) {
+      container.innerHTML = "<p>No files uploaded yet.</p>";
+      return;
+    }
+
+    files.forEach(file => {
+      const url = "http://localhost:3000/files/" + file;
+
+      if (file.match(/\.(jpg|jpeg|png|gif|PNG|JPG|JPEG)$/)) {
+        container.innerHTML +=`<div><img src="${url}" width="200"></div><br>`;
+      } 
+      else if (file.match(/\.(mp4|webm)$/)) {
+        container.innerHTML += `<div>
+          <video src="${url}" width="300" controls></video></div><br>
+        `;
+      }
+      else {
+        container.innerHTML += `
+          <a href="${url}" download>${file}</a><br><br>
+        `;
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

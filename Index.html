@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>File Upload</title>
+</head>
+<body>
+  <h2>Upload File</h2>
+
+  <input type="file" id="file" />
+  <button onclick="uploadFile()">Upload</button>
+
+  <script>
+    function uploadFile() {
+      const input = document.getElementById("file");
+      const file = input.files[0];
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      fetch("http://localhost:3000/upload", {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => alert("Uploaded ✅"));
+    }
+  </script>
+</body>
+</html>
